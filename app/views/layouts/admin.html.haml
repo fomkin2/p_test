@@ -1,0 +1,70 @@
+!!!
+/[if lt IE 7] <html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="en">
+/[if IE 7] <html class="no-js lt-ie10 lt-ie9 lt-ie8" lang="en">
+/[if IE 8] <html class="no-js lt-ie10 lt-ie9" lang="en">
+/[if IE 9] <html class="no-js lt-ie10" lang="en">
+<!--[if gt IE 9]><!-->
+%html{:class => 'no-js', :lang => 'en'}<>
+  <!--<![endif]-->
+  %head
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "", :name => "description"}
+    %meta{:content => "width=device-width", :name => "viewport"}
+    %link{:href => "/favicon.ico", :rel => "shortcut icon"}
+    %title Yinlang
+    = stylesheet_link_tag 'bsie/bootstrap/css/bootstrap', media: 'all'
+
+    /[if lte IE 6]
+      = stylesheet_link_tag 'bsie/bootstrap/css/bootstrap-ie6', media: 'all'
+      = stylesheet_link_tag 'bsie/bootstrap/css/ie', media: 'all'
+
+    = csrf_meta_tags
+
+    :javascript
+      (function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement);
+
+    /[if gte IE 9]
+      :css
+        .gradient {filter: none;}
+
+  %body
+    .container-fluid
+      .row-fluid
+        = render partial: 'admin_nav'
+
+      .row-fluid
+        - if notice
+          .alert.alert-info
+            = notice
+        - if alert
+          .alert.alert-warning
+            = alert
+
+    .container-fluid
+      .row-fluid
+        = yield
+
+    .container-fluid
+      .row-fluid
+        %hr/
+        %footer
+          %p &#169; Yinlang 2015
+
+= javascript_include_tag 'bsie/js/jquery-1.7.2.min.js', media: 'all'
+= javascript_include_tag 'bsie/bootstrap/js/bootstrap', media: 'all'
+
+/[if lte IE 6]
+  = javascript_include_tag 'bsie/bootstrap/js/bootstrap-ie', media: 'all'
+
+/ Google Analytics: change UA-XXXXX-X to be your site's ID.
+:javascript
+  (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+  function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+  e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+  e.src='//www.google-analytics.com/analytics.js';
+  r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+  ga('create','UA-XXXXX-X');ga('send','pageview');
+
+= javascript_include_tag 'application', media: 'all'
+= javascript_include_tag 'tinymce'
+= tinymce

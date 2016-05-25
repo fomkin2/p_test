@@ -1,0 +1,68 @@
+%section.page-header
+  .container
+    .row
+      .col-md-12
+        %ul.breadcrumb
+          %li
+            %a{:href => "#"} 主页
+          %li 雅思小助手
+          %li.active
+            = @product.title
+    .row
+      .col-md-12
+        %h1= @product.title
+.main.shop{:role => "main"}
+  .container
+    .row
+      .col-md-12
+        %hr.tall/
+    .row
+      .col-md-6
+        .owl-carousel{"data-plugin-options" => "{\"items\": 1}"}
+          - if defined? @product.products_images
+            - @product.products_images.order('ordering desc').each do |image|
+              %div
+                .thumbnail
+                  = image_tag image.file.url, class: 'img-responsive img-rounded'
+      .col-md-6{ 'ng-controller' => 'ProductController' }
+        .summary.entry-summary
+          %h1.mb-none
+            %strong
+              = @product.title
+          - if @product.price.present?
+            %p.price
+              %span.amount ¥ #{ @product.price }
+          %p.taller
+            =@product.introduction
+          - if user_signed_in?
+            .quantity
+              %input.minus{:type => "button", :value => "-", 'ng-click' => 'reduce()'}
+              %input.input-text.qty.text{:min => "1", :step => "1", :autocomplete => "off", :type => "number", 'ng-model' => 'product.number', 'ng-change' => 'numberChange()'}
+              %input.plus{ :type => "button", :value => "+", 'ng-click' => 'increase()' }
+            %button.btn.btn-primary{'ng-click' => 'addToCart($event)', 'data-product-id' => @product.id}
+              %i.fa.fa-plus
+              添加至购物车
+            = render partial: 'cart_added_modal'
+          - else
+            = link_to new_user_session_path, class: 'btn btn-primary' do
+              %i.fa.fa-shopping-cart
+              登录后购买
+          - if @product.link.present?
+            = link_to @product.link, class: 'btn btn-default', target: '_blank', rel: "nofollow" do
+              %i.fa.fa-shopping-cart
+              去淘宝购买
+
+    .row
+      .col-md-12
+        .tabs.tabs-product
+          %ul.nav.nav-tabs
+            %li.active
+              %a{"data-toggle" => "tab", :href => "#productDescription"} 描述
+            - if @product.information.present?
+              %li
+                %a{"data-toggle" => "tab", :href => "#productInfo"} 更多信息
+          .tab-content
+            #productDescription.tab-pane.active
+              =raw @product.description
+            #productInfo.tab-pane
+              =raw @product.information

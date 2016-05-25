@@ -1,0 +1,89 @@
+.modal-header
+  %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+    %span{"aria-hidden" => "true"} ×
+  %h4.modal-title
+    购物车
+.modal-body.shop
+  .container-fluid
+    .row
+      .col-md-12
+        .featured-boxes
+          .row
+            .col-md-12
+              .featured-box.featured-box-primary.align-left.mt-sm
+                .box-content
+                  %table.shop_table.cart
+                    %thead
+                      %tr
+                        %th.product-remove
+                           
+                        %th.product-thumbnail
+                           
+                        %th.product-name
+                          产品
+                        %th.product-price
+                          价格
+                        %th.product-quantity
+                          数量
+                        %th.product-subtotal
+                          总价
+                    %tbody
+                      %tr.cart_table_item{"ng-repeat" => "cart in carts | orderBy : 'product_title'"}
+                        %td.product-remove
+                          %a{"ng-click" => "delete(cart)"}
+                            %i.fa.fa-times
+                        %td.product-thumbnail
+                          %a{:href => "/products/{{cart.product_title}}"}
+                            %img.img-responsive{:alt => "", :height => "100", "ng-src" => "{{cart.product_img}}", :width => "100"}
+                        %td.product-name
+                          %a{:href => "/products/{{cart.product_title}}"}
+                            {{cart.product_title}}
+                        %td.product-price
+                          %span.amount= "¥{{cart.price}}"
+                        %td.product-quantity
+                          .quantity
+                            %input.minus{value: '-', type: 'button', 'ng-click' => 'minus(cart)'}
+                            %input.input-text.qty.text{:min => "1", :step => "1", :type => "text", :value => "{{cart.number}}", disabled: 'disabled'}
+                            %input.plus{value: '+', type: 'button', 'ng-click' => 'plus(cart)'}
+                        %td.product-subtotal
+                          %span.amount= "¥{{cart.number * cart.price}}"
+
+        .featured-boxes
+          .row
+            .col-sm-6
+              .featured-box.featured-box-primary.align-left.mt-xlg
+                .box-content
+                  %h4.heading-primary.text-uppercase.mb-md 备注
+                  .row
+                    .form-group.col-md-6
+                      %label.control-label QQ或微信号*
+                      %input.form-control{:type => "text", 'ng-change' => 'commentChange()', 'ng-model' => 'comment.qqwechat'}
+                    .form-group.col-md-6
+                      %label.control-label 联系电话*
+                      %input.form-control{:type => "text", 'ng-change' => 'commentChange()', 'ng-model' => 'comment.phone'}
+                  .row
+                    .form-group.col-md-6
+                      %label.control-label 下场考试时间
+                      %input.form-control{:type => "text", 'ng-change' => 'commentChange()', 'ng-model' => 'comment.next_exam'}
+                  .row
+                    .form-group.col-md-12
+                      %label.control-label 留言
+                      %input.form-control{:type => "text", 'ng-change' => 'commentChange()', 'ng-model' => 'comment.notice'}
+            .col-sm-6
+              .featured-box.featured-box-primary.align-left.mt-xlg
+                .box-content
+                  %h4.heading-primary.text-uppercase.mb-md 购物车共计
+                  %table.cart-totals
+                    %tbody
+                      %tr.total
+                        %th
+                          %strong 共计
+                        %td
+                          %strong
+                            %span.amount
+                              ¥{{priceAmount()}}
+    .row
+      .col-md-12
+        .actions-continue
+          %a.btn.btn-lg.btn-primary{href: '#/carts/confirm', 'ng-disabled' => '!formFilled() || !priceAmount()', 'ng-click' => 'reloadModal()'}
+            创建订单 →

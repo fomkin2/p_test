@@ -1,0 +1,44 @@
+.shop{'ng-controller' => 'ProductController'}
+  .container
+    .row
+      .col-md-12
+        %hr.tall/
+    .row
+      .col-md-6
+        %h1.mb-none
+          %strong 趴趴雅思
+    .row
+      %ul.products.product-thumb-info-list{"data-plugin-masonry" => ""}
+        - @products.each do |product|
+          %li.col-md-3.col-sm-6.col-xs-12.product
+            %a{:href => "shop-product-sidebar.html"}
+              %span.onsale Sale!
+            %span.product-thumb-info
+              - if user_signed_in?
+                %a.add-to-cart-product{'ng-click' => 'addToCart($event)', 'data-product-id' => product.id}
+                  %i.fa.fa-shopping-cart
+                  添加到购物车
+              - else
+                = link_to new_user_session_path, class: 'add-to-cart-product' do
+                  %i.fa.fa-shopping-cart
+                  登录后购买
+              %a{:href => "/products/#{URI.encode(product.title)}"}
+                %span.product-thumb-info-image
+                  %span.product-thumb-info-act
+                    %span.product-thumb-info-act-left
+                      %em 查看
+                    %span.product-thumb-info-act-right
+                      %em
+                        %i.fa.fa-plus
+                        详情
+                  %img.img-responsive{:alt => "", :src => "#{product.products_images.order('ordering desc').first.file.url}"}/
+              %span.product-thumb-info-content
+                %a{:href => "shop-product-sidebar.html"}
+                  %h4= product.title
+                  %span.price
+                    %del
+                      %span.amount= "$#{product.price + 30}"
+                    %ins
+                      %span.amount= "$#{product.price}"
+
+  = render partial: 'cart_added_modal'

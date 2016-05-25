@@ -1,0 +1,31 @@
+- content_for :sidebar do
+  = render partial: 'sidebar'
+
+%h1.page-header
+  订单列表
+%p
+  .row
+    = form_tag '', method: :get, class: 'form-inline' do
+      .form-group
+        = text_field_tag 'uid', params[:uid], class: 'form-control', 'placeholder' => '订单号'
+      .form-group
+        %label 状态
+        = select_tag 'status', options_for_select(Order::STATUS, params[:status]), include_blank: true, class: 'form-control', 'placeholder' => '订单状态'
+      %button{type: 'submit', class: 'btn btn-defaut'} 筛选
+
+.row
+  .table-responsive
+    %table.table
+      %thead
+        %tr
+          %th 订单号
+          %th 金额
+          %th 状态
+          %th 创建于
+      %tbody
+        - @management_orders.each do |order|
+          %tr
+            %td= link_to order.uid, order
+            %td= order.price.to_i
+            %td= Order.status_text order.status
+            %td= order.created_at.strftime('%F %T')

@@ -1,0 +1,118 @@
+- content_for :sidebar do
+  = render partial: 'sidebar'
+
+.row
+  .col-md-12
+    %h1.page-header
+      = "订单号：#{@management_order.uid}"
+      %br
+      %small
+        = "价格：¥#{@management_order.price.to_i}"
+
+.row
+  .col-md-6
+    .panel.panel-default
+      .panel-heading 用户
+      .panel-body
+        %dl
+          %dt email
+          %dd= @management_order.user.email
+          - if @management_order.user.profile
+            %dt 姓名
+            %dd= @management_order.user.profile.name
+            %dt 电话
+            %dd= @management_order.user.profile.phone
+            %dt 地址
+            %dd= @management_order.user.profile.address
+
+  .col-md-6
+    .panel.panel-default
+      .panel-heading 产品
+      .table-responsive
+        %table.table
+          %thead
+            %tr
+              %th 名称
+              %th 价格
+              %th 数量
+          %tbody
+            - for orders_product in @management_order.orders_products
+              %tr
+                %td
+                  = link_to orders_product.product.title, "/products/#{orders_product.product.title}", target: '_blank'
+                %td= orders_product.price.to_i
+                %td= orders_product.number
+
+- if @can_edit_price
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading 修改订单价格
+        .panel-body
+          = form_tag "/management/orders/#{@management_order.id}", method: :patch do
+            .row
+              .col-md-6
+                .form-group
+                  %label 价格 *
+                  = text_field_tag 'order[price]', '', type: 'number', class: 'form-control', required: ''
+              .col-md-6
+                .form-group
+                  %label 备注 *
+                  = text_field_tag 'order[comment]', '', class: 'form-control', required: ''
+            .row
+              .col-md-12
+                %button.pull-right.btn.btn-primary{type: 'submit'} 提交
+
+- if @support_status
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading 修改订单状态
+        .panel-body
+          = form_tag "/management/orders/#{@management_order.id}", method: :patch do
+            .row
+              .col-md-6
+                .form-group
+                  %label 状态 *
+                  = select("order", "status", @support_status, {include_blank: true}, class: 'form-control', required: '')
+              .col-md-6
+                .form-group
+                  %label 备注 *
+                  = text_field_tag 'order[comment]', '', class: 'form-control', required: ''
+            .row
+              .col-md-12
+                %button.pull-right.btn.btn-primary{type: 'submit'} 提交
+.row
+  .col-md-12
+    .panel.panel-default
+      .panel-heading 订单日志
+      .table-responsive
+        %table.table
+          %thead
+            %tr
+              %th
+                操作者
+              %th
+                状态
+              %th
+                留言
+              %th
+                创建于
+          %tbody
+            - for log in @management_order.orders_logs
+              %tr
+                %td
+                  = log.admin ? log.admin.email : '用户'
+                %td
+                  = Management::Order.status_text log.status
+                %td
+                  - begin
+                    - JSON.parse(log.comment).each do |key, value|
+                      = "#{key}: #{value}"
+                      %br
+                  - rescue
+                    = log.comment
+                %td
+                  = log.created_at.strftime('%F %T')
+
+    = link_to 'Back', management_orders_path

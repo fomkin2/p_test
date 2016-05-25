@@ -1,0 +1,7 @@
+%h1
+  Edit image of
+  = @product.title
+= image_tag @products_image.file.url, style: 'height: 300px;'
+= render 'form'
+
+= link_to 'Back', "/products_images?product_id=#{ @product.id }"

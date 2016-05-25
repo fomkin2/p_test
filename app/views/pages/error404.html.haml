@@ -1,0 +1,31 @@
+%section.page-header
+  .container
+    .row
+      .col-md-12
+        %ul.breadcrumb
+          %li
+            %a{:href => '/'} 首页
+          %li.active 页面
+    .row
+      .col-md-12
+        %h1 404 - 页面未找到
+.container
+  %section.page-not-found
+    .row
+      .col-md-6.col-md-offset-1
+        .page-not-found-main
+          %h2
+            404
+            %i.fa.fa-file
+          %p 对不起，您要访问的网址页面不存在。
+      .col-md-4
+        %h4.heading-primary 这里是些有用的链接
+        %ul.nav.nav-list
+          %li
+            %a{:href => "/"} 首页
+          %li
+            %a{:href => "/关于我们"} 关于我们
+          %li
+            %a{:href => "/常见问题"} 常见问题
+          %li
+            %a{:href => "/联系我们"} 联系我们

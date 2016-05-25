@@ -1,0 +1,21 @@
+{
+	"folders":
+	[
+		{
+			"folder_exclude_patterns":
+			[
+				"tmp",
+				"log",
+				"bin",
+        "public/assets"
+			],
+			"path": "."
+		}
+	],
+	"settings":
+	{
+		"FuzzyFilePath":
+		{
+		}
+	}
+}

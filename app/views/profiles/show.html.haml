@@ -1,0 +1,19 @@
+.container
+  .row
+    .col-md-12
+      .featured-boxes
+        .row
+          .col-sm-6.col-md-offset-3
+            .featured-box.featured-box-primary.align-left.mt-xlg
+              .box-content
+                %h4.heading-primary.text-uppercase.mb-md 个人资料
+                %p
+                  %strong= Profile.human_attribute_name :name
+                  = @profile.name
+                %p
+                  %strong= Profile.human_attribute_name :phone
+                  = @profile.phone
+                %p
+                  %strong= Profile.human_attribute_name :address
+                  = @profile.address
+                = link_to t('edit'), '/profile/edit', class: 'btn btn-primary'

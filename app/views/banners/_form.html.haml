@@ -1,0 +1,40 @@
+= form_for @banner do |f|
+  - if @banner.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@banner.errors.count, "error")} prohibited this banner from being saved:"
+      %ul
+        - @banner.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.hidden_field :banner_position_id
+
+  .control-group
+    - if params[:action] == 'edit'
+      %p
+        = image_tag f.object.image.url
+
+    %label.control-label
+      Image
+    .controls
+      = f.file_field :image
+
+  .control-group
+    %label.control-label
+      Url
+    .controls
+      = f.text_field :url
+
+  .control-group
+    .controls
+      %label.control-label
+        = f.check_box :new_window
+        Open New Window
+
+  .control-group
+    %label.control-label
+      ordering
+    .controls
+      = f.text_field :ordering
+
+  .actions
+    = f.submit 'Save', class: 'btn btn-primary'

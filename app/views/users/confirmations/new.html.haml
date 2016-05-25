@@ -1,0 +1,24 @@
+.container
+  .row
+    .col-md-12
+      - if devise_error_messages!.present?
+        .alert.alert-warning.alert-dismissible
+          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+          = devise_error_messages!
+      .featured-boxes
+        .row
+          .col-sm-6.col-md-offset-3
+            .featured-box.featured-box-primary.align-left.mt-xlg{:style => "height: 327px;"}
+              .box-content
+                %h4.heading-primary.text-uppercase.mb-md 重新发送验证邮件
+                = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+                  .row
+                    .form-group
+                      .col-md-12
+                        %label E-mail
+                        = f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: "form-control input-lg"
+                  .row
+                    .col-md-12
+                      %input.btn.btn-primary.pull-right.mb-xl{"data-loading-text" => "Loading...", :type => "submit", :value => "重新发送验证邮件"}/
+                      = render "users/shared/links"

@@ -1,0 +1,35 @@
+.container
+  .row
+    .col-md-12
+      .featured-boxes
+        .row
+          .col-sm-6.col-md-offset-3
+            .featured-box.featured-box-primary.align-left.mt-xlg{:style => "height: 400px;"}
+              .box-content
+                %h4.heading-primary.text-uppercase.mb-md
+                  用户登录。还没有账号？现在
+                  = link_to "注册", new_registration_path(resource_name), class: 'btn btn-default'
+
+                = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+                  .row
+                    .form-group
+                      .col-md-12
+                        %label E-mail
+                        = f.email_field :email, autofocus: true, class: "form-control input-lg"
+                  .row
+                    .form-group
+                      .col-md-12
+                        %label 密码
+                        = f.password_field :password, autocomplete: "off", class: "form-control input-lg"
+                  .row
+                    - if devise_mapping.rememberable?
+                      .col-md-6
+                        %span.remember-box.checkbox
+                          = f.label :remember_me do
+                            = f.check_box :remember_me
+                            记住我
+                    .col-md-6
+                      %input.btn.btn-primary.pull-right.mb-xl{"data-loading-text" => "Loading...", :type => "submit", :value => "登录"}/
+                  .row
+                    .col-md-12
+                      = render "users/shared/links"

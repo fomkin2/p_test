@@ -1,0 +1,32 @@
+.span12
+  %h1.page-header Listing products
+
+  %table.table
+    %thead
+      %tr
+        %th Title
+        %th Price
+        %th Introduction
+        %th Published
+        %th Ordering
+        %th
+        %th
+        %th
+        %th
+
+    %tbody
+      - @products.each do |product|
+        %tr
+          %td= product.title
+          %td= product.price
+          %td= product.introduction
+          %td= product.published ? "Yes" : "No"
+          %td= product.ordering
+          %td= link_to 'Images', "/products_images?product_id=#{product.id}"
+          %td= link_to 'Show', "/products/#{ product.title }", target: '_blank'
+          %td= link_to 'Edit', edit_product_path(product)
+          %td= link_to 'Destroy', product, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+  %br
+
+  = link_to 'New Product', new_product_path, class: 'btn btn-primary'

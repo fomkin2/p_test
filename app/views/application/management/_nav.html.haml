@@ -1,0 +1,9 @@
+= form_tag '/management/orders', method: :get, class: 'navbar-form navbar-right' do
+  = text_field_tag 'uid', '', placeholder: '搜索订单号', class: 'form-control'
+%ul.nav.navbar-nav.navbar-right
+  %li{class: ('active' if params[:controller] == 'management/orders')}
+    %a{:href => "/management/orders"} 订单
+%p.navbar-text.navbar-right
+  = link_to "退出", destroy_admin_session_path, :method => :delete, class: 'navbar-link'
+  = current_admin.email
+  &nbsp;

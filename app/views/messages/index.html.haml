@@ -1,0 +1,21 @@
+%h1 Listing messages
+
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Email
+      %th Title
+      %th Content
+      %th Created
+
+  %tbody
+    - @messages.each do |message|
+      %tr
+        %td= message.name
+        %td= message.email
+        %td= message.title
+        %td= message.content
+        %td= message.created_at.strftime('%F %R')
+
+%br

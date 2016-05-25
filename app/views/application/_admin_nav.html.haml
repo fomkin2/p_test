@@ -1,0 +1,19 @@
+.span12
+  #admin-nav
+    Hello
+    = current_admin.email
+    , you can
+    %a{:href => "/"} Preview
+    ,
+    %a{:href => "/management/orders"} Orders
+    ,
+    %a{:href => "/messages"} Messages
+    ,
+    %a{:href => "/products"} Products
+    ,
+    %a{:href => "/banners?banner_position_id=1"} Banners
+    ,
+    %a{:href => "/images"} Images
+    ,
+    = link_to "Sign out", destroy_admin_session_path, :method => :delete
+

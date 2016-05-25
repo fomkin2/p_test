@@ -1,0 +1,126 @@
+.modal-header
+  %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+    %span{"aria-hidden" => "true"} ×
+  %h4.modal-title
+    我的订单
+.modal-body.shop
+  .container-fluid{ 'ng-cloak' => '', 'ng-if' => 'order.uid'}
+    .row
+      .col-md-12
+        %h2
+          %strong 订单号：{{order.uid}}
+    .row
+      .col-md-9
+        #accordion.panel-group
+          .panel.panel-default
+            .panel-heading
+              %h4.panel-title
+                %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse"}
+                  订单状态
+            .accordion-body.collapse.in
+              .panel-body
+                .table-responsive
+                  %table.table.Striped
+                    %thead
+                      %tr
+                        %th 操作者
+                        %th 状态
+                        %th 备注
+                        %th 时间
+                    %tbody
+                      %tr{ 'ng-repeat' => 'log in order.logs'}
+                        %td
+                          {{log.admin ? '客服' : '您'}}
+                        %td
+                          {{log.status}}
+                        %td{ 'ng-bind-html' => 'log.comment | logCommentObj | logCommentText' }
+                        %td
+                          {{log.created_at}}
+        #accordion.panel-group
+          .panel.panel-default
+            .panel-heading
+              %h4.panel-title
+                %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse"}
+                  备注
+            .accordion-body.collapse.in
+              .panel-body
+                .row
+                  .form-group
+                    .col-md-6
+                      %label QQ或微信号
+                      %input.form-control{disabled: 'disabled', :type => "text", 'ng-value' => "order.logs[0].comment | logCommentObj:'qqwechat'"}
+                    .col-md-6
+                      %label 联系电话
+                      %input.form-control{disabled: 'disabled', :type => "text", 'ng-value' => "order.logs[0].comment | logCommentObj:'phone'"}
+                .row
+                  .form-group
+                    .col-md-6
+                      %label 下场考试时间
+                      %input.form-control{disabled: 'disabled', :type => "text", 'ng-value' => "order.logs[0].comment | logCommentObj:'next_exam'"}
+                .row
+                  .form-group
+                    .col-md-12
+                      %label 留言
+                      %input.form-control{disabled: 'disabled', :type => "text", 'ng-value' => "order.logs[0].comment | logCommentObj:'notice'"}
+
+        #accordion.panel-group
+          .panel.panel-default
+            .panel-heading
+              %h4.panel-title
+                %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse"}
+                  订购产品
+            .accordion-body.collapse.in
+              .panel-body
+                %table.shop_table.cart
+                  %thead
+                    %tr
+                      %th.product-thumbnail
+                      %th.product-name
+                        产品
+                      %th.product-price
+                        价格
+                      %th.product-quantity
+                        数量
+                      %th.product-subtotal
+                        共计
+                  %tbody
+                    - total = 0
+                    %tr.cart_table_item{ 'ng-repeat' => 'product in order.products' }
+                      %td.product-thumbnail
+                        %a{:href => "/products/{{product.title}}", target: '_blank', 'ng-if' => 'product.cover' }
+                          %img.img-responsive{:alt => "", :height => "100", 'ng-src' => "{{product.cover}}", :width => "100"}
+                        %td.product-name
+                          %a{:href => "/products/{{product.title}}", target: '_blank'}
+                            {{product.title}}
+                        %td.product-price
+                          %span.amount
+                            ¥{{product.price | priceAsInt}}
+                        %td.product-quantity
+                          {{product.number}}
+                        %td.product-subtotal
+                          %span.amount= "¥{{product.price * product.number}}"
+                %hr.tall
+                %h4.heading-primary 订单金额
+                %table.cart-totals
+                  %tbody
+                    %tr.total
+                      %th
+                        %strong 共计
+                      %td
+                        %strong
+                          %span.amount
+                            ¥{{order.price.replace('.0', '')}}
+            .actions-continue
+              %a.btn.btn-lg.btn-alipay.mt-xl{'ng-href' => '{{order.payment_url}}', target: '_blank', 'ng-if' => 'order.status == "CREATED"'} 支付宝支付
+              %a.btn.btn-lg.btn-default.mt-xl{:href => '#/orders', 'ng-click' => 'reloadModal()'} 返回
+      .col-md-3
+        %h4.heading-primary 订单金额
+        %table.cart-totals
+          %tbody
+            %tr.total
+              %th
+                %strong 共计
+              %td
+                %strong
+                  %span.amount
+                    ¥{{order.price.replace('.0', '')}}

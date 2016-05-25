@@ -1,0 +1,40 @@
+.container
+  .row
+    .col-md-12
+      - if @profile.errors.any?
+        .alert.alert-warning.alert-dismissible
+          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+          %h2= "#{pluralize(@profile.errors.count, "error")} prohibited this profile from being saved:"
+          %ul
+            - @profile.errors.full_messages.each do |msg|
+              %li= msg
+
+      .featured-boxes
+        .row
+          .col-sm-6.col-md-offset-3
+            .featured-box.featured-box-primary.align-left.mt-xlg
+              .box-content
+                %h4.heading-primary.text-uppercase.mb-md 编辑个人资料
+
+                = form_for @profile, url: '/profile', method: :patch do |f|
+
+                  .form-group
+                    %label
+                      = "#{Profile.human_attribute_name :name} *"
+                    = f.text_field :name, autofocus: true, class: 'form-control'
+
+                  .form-group
+                    %label
+                      = "#{Profile.human_attribute_name :phone} *"
+                    = f.text_field :phone, class: 'form-control'
+
+                  .form-group
+                    = f.label :address
+                    = f.text_field :address, class: 'form-control'
+
+                  .form-group
+                    = f.submit t('update'), class: 'btn btn-primary'
+
+                = link_to t('back'), :back
+

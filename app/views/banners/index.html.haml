@@ -1,0 +1,43 @@
+.span3
+  .well.sidebar-nav
+    %ul.nav.nav-list
+      %li.nav-header Sidebar
+      - @banner_positions.each do |banner_position|
+        %li{ class: ('active' if params[:banner_position_id] == banner_position.id.to_s) }
+          = link_to banner_position.description, {controller: '/banners', action: :index, banner_position_id: banner_position.id}
+
+.span9
+
+  - if notice
+    .alert.alert-info
+      = notice
+  - if alert
+    .alert.alert-warning
+      = alert
+
+  %h1.page-header
+    Banners -
+    = @banner_position.description
+
+  = link_to 'New Banner', {action: :new, banner_position_id: @banner_position.id}, class: 'btn btn-primary'
+
+  %hr
+
+  .container-fluid
+    - @banners.each do |banner|
+      .row-fluid
+        %p
+          - banner_width = @banner_position.size.split('x').first
+          - banner_height = @banner_position.size.split('x').last
+          = image_tag banner.image.url, style: "width: #{banner_width}px; height: #{banner_height}px;"
+        %p
+          URL:
+          = link_to banner.url
+          - if banner.new_window
+            %strong IN NEW WINDOW
+        %p
+          Ordering:
+          = banner.ordering
+        %p
+          = link_to 'Edit', edit_banner_path(banner), class: 'btn'
+          = link_to 'Destroy', banner, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'

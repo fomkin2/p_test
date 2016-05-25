@@ -1,0 +1,7 @@
+%h1
+  New image of
+  = @product.title
+
+= render 'form'
+
+= link_to 'Back', "/products_images?product_id=#{ @product.id }"

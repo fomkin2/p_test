@@ -1,0 +1,142 @@
+%section.page-header
+  .container
+    .row
+      .col-md-12
+        %ul.breadcrumb
+          %li
+            %a{:href => "/"} 首页
+          %li.active 联系我们
+    .row
+      .col-md-12
+        %h1 联系我们
+/ Google Maps - Go to the bottom of the page to change settings and map location.
+#googlemaps.google-map
+.container
+  .row
+    .col-md-6
+      #contactSuccess.alert.alert-success.hidden
+        %strong Success!
+        Your message has been sent to us.
+      #contactError.alert.alert-danger.hidden
+        %strong Error!
+        There was an error sending your message.
+      %h2.mb-sm.mt-sm
+        %strong 联系
+        我们
+      - if flash[:message_delivered]
+        .alert.alert-info
+          = flash[:message_delivered]
+      - if flash[:message_undelivered]
+        .alert.alert-warning
+          = flash[:message_undelivered]
+      = form_for @message, id: 'contactForm' do |f|
+        .row
+          .form-group
+            .col-md-6
+              %label 称呼 *
+              %input#name.form-control{"data-msg-required" => "Please enter your name.", :maxlength => "100", :name => "message[name]", :required => "", :type => "text", :value => ""}/
+            .col-md-6
+              %label 您的 email *
+              %input#email.form-control{"data-msg-email" => "Please enter a valid email address.", "data-msg-required" => "Please enter your email address.", :maxlength => "100", :name => "message[email]", :required => "", :type => "email", :value => ""}/
+        .row
+          .form-group
+            .col-md-12
+              %label 主题 *
+              %input#subject.form-control{"data-msg-required" => "Please enter the subject.", :maxlength => "100", :name => "message[title]", :required => "", :type => "text", :value => ""}/
+        .row
+          .form-group
+            .col-md-12
+              %label 消息 *
+              %textarea#message.form-control{"data-msg-required" => "Please enter your message.", :maxlength => "5000", :name => "message[content]", :required => "", :rows => "10"}
+        .row
+          .col-md-12
+            %input.btn.btn-primary.btn-lg.mb-xlg{"data-loading-text" => "Loading...", :type => "submit", :value => "发送消息"}/
+
+    .col-md-6
+      %h4.heading-primary.mt-lg
+        联系
+        %strong 合作
+      %p 欢迎各大网站及公司与上海茵朗信息科技有限公司洽谈合作。
+      %hr/
+      %h4.heading-primary
+        办公
+        %strong 地址
+      %ul.list.list-icons.list-icons-style-3.mt-xlg
+        %li
+          %i.fa.fa-map-marker
+          %strong 地址:
+          上海市杨浦区国定东路275-8号13A03室
+        %li
+          %i.fa.fa-phone
+          %strong 电话:
+          021-65263861
+        %li
+          %i.fa.fa-envelope
+          %strong Email:
+          %a{:href => "mailto:service@ieltsassistant.com"} service@ieltsassistant.com
+      %hr/
+      %h4.heading-primary
+        工作
+        %strong 时间
+      %ul.list.list-icons.list-dark.mt-xlg
+        %li
+          %i.fa.fa-clock-o
+          每周一至周五 9:30 - 17:30
+
+- content_for :js do
+
+  / Specific Page Vendor and Views
+  = javascript_include_tag 'views/view.contact.js'
+
+  %script{:src => "http://maps.google.cn/maps/api/js?sensor=false"}
+  :javascript
+    /*
+    Map Settings
+
+      Find the Latitude and Longitude of your address:
+        - http://universimmedia.pagesperso-orange.fr/geo/loc.htm
+        - http://www.findlatitudeandlongitude.com/find-address-from-latitude-and-longitude/
+
+    */
+
+    // Map Markers
+    var mapMarkers = [{
+      address: "上海市杨浦区国定东路275-8",
+      html: "<strong>办公室</strong><br>上海市杨浦区国定东路275-8号13A03室",
+      icon: {
+        image: "img/pin.png",
+        iconsize: [26, 46],
+        iconanchor: [12, 46]
+      },
+      popup: true
+    }];
+
+    // Map Initial Location
+    var initLatitude = 31.29687;
+    var initLongitude = 121.51892;
+
+    // Map Extended Settings
+    var mapSettings = {
+      controls: {
+        draggable: (($.browser.mobile) ? false : true),
+        panControl: true,
+        zoomControl: true,
+        mapTypeControl: true,
+        scaleControl: true,
+        streetViewControl: true,
+        overviewMapControl: true
+      },
+      scrollwheel: false,
+      markers: mapMarkers,
+      latitude: initLatitude,
+      longitude: initLongitude,
+      zoom: 16
+    };
+
+    var map = $("#googlemaps").gMap(mapSettings);
+
+    // Map Center At
+    var mapCenterAt = function(options, e) {
+      e.preventDefault();
+      $("#googlemaps").gMap("centerAt", options);
+    }

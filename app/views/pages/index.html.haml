@@ -1,0 +1,102 @@
+.container
+  - if @carousel_banners.present?
+    .row
+      .col-md-12
+        .nivo-slider
+          .slider-wrapper.theme-default
+            #nivoSlider.nivoSlider
+              - @carousel_banners.each_with_index do |banner, index|
+                - image = image_tag banner.image.url
+                - if banner.url.present?
+                  = link_to image, banner.url, target: banner.new_window ? '_blank' : '_self'
+                - else
+                  = image
+            #htmlcaption.nivo-html-caption
+
+.container
+  .featured-boxes
+    .row
+      .col-md-3.col-sm-6
+        .featured-box.featured-box-primary.featured-box-effect-1
+          .box-content
+            %i.icon-featured.fa.fa-desktop
+            %h4.text-uppercase 听力&阅读
+            %p
+              趴趴独家
+              %br
+              原创听力阅读网课
+              %br
+              提供自学思路和方法
+            %p
+              %a.lnk-primary.learn-more{:href => "/products/#{URI.encode('趴趴雅思听力原创网课')}"}
+                了解听力
+                %i.fa.fa-angle-right
+              %a.lnk-primary.learn-more{:href => "/products/#{URI.encode('趴趴雅思阅读原创网课')}"}
+                了解阅读
+                %i.fa.fa-angle-right
+      .col-md-3.col-sm-6
+        .featured-box.featured-box-secondary.featured-box-effect-1
+          .box-content
+            %i.icon-featured.fa.fa-user
+            %h4.text-uppercase 口语
+            %p
+              趴趴原创口语预测答案
+              %br
+              系统智能选择个性化素材
+              %br
+              杜绝撞题
+            %p
+              %a.lnk-secondary.learn-more{:href => "/products/#{URI.encode('趴趴雅思口语答案卡片')}"}
+                了解口语
+                %i.fa.fa-angle-right
+      .col-md-3.col-sm-6
+        .featured-box.featured-box-tertiary.featured-box-effect-1
+          .box-content
+            %i.icon-featured.fa.fa-edit
+            %h4.text-uppercase 写作
+            %p
+              趴趴原创预测范文
+              %br
+              配套作文原创网课
+              %br
+              写作双保险
+            %p
+              %a.lnk-tertiary.learn-more{:href => "/products/#{URI.encode('趴趴雅思作文原创范文模板')}"}
+                了解写作
+                %i.fa.fa-angle-right
+      .col-md-3.col-sm-6
+        .featured-box.featured-box-quaternary.featured-box-effect-1
+          .box-content
+            %i.icon-featured.fa.fa-plane
+            %h4.text-uppercase 出国留学
+            %p
+              Native Speaker
+              %br
+              原创润色留学文书
+              %br
+              个性化定制
+              %br
+              出国留学成功保障
+            %p
+              %a.lnk-quaternary.learn-more{:href => "/products/#{URI.encode('趴趴出国留学文书指导')}"}
+                了解出国留学
+                %i.fa.fa-angle-right
+
+%section.section.section-default
+  .container
+    .row
+      .col-md-6
+        %h2.mt-lg
+          在线1V1
+          %strong 名师辅导
+        %p.lead
+          专属机构名师，高效高性价比
+          %br
+          个性化教学，一对一量身打造
+          %br
+          随时随地在线上课，轻松灵活
+        %p.mt-lg
+          目前开设雅思全套听说读写在线一对一私教课程，一课时仅仅不到200元，合作教师均来自曾任职于知名英语教学机构的金牌讲师。趴趴雅思在线一对一课程刨除地域限制，让学生随时随地享受名师一对一个性化辅导服务，更享有助教全程陪伴学习服务，课程支持随时退，随时换，充分保障学生权益，助学生轻松与雅思分手。
+      .col-md-6.mt-lg
+        %a{href: "/products/#{URI.encode('趴趴雅思听说读写1V1在线名师辅导')}"}
+          %img.img-responsive{:alt => "", "data-appear-animation" => "fadeInRight", :src => "/img/1v1私教官网重点图.jpg"}/

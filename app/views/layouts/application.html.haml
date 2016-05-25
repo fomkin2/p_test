@@ -1,0 +1,259 @@
+!!!
+/[if lt IE 7] <html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="en">
+/[if IE 7] <html class="no-js lt-ie10 lt-ie9 lt-ie8" lang="en">
+/[if IE 8] <html class="no-js lt-ie10 lt-ie9" lang="en">
+/[if IE 9] <html class="no-js lt-ie10" lang="en">
+<!--[if gt IE 9]><!-->
+%html{:class => 'no-js', :lang => 'en'}<>
+  <!--<![endif]-->
+
+  %head
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "", :name => "description"}
+    %meta{:content => "width=device-width", :name => "viewport"}
+    - if params[:action] == 'faq'
+      %title 常见问题_雅思口语预测_雅思私教课_趴趴雅思小助手
+    - else
+      %title 趴趴雅思_雅思口语_雅思一对一_趴趴雅思小助手
+
+    %meta{:content => "雅思一对一,雅思口语素材,留学文书,雅思在线辅导,雅思私教课,出国文书指导", :name => "keywords"}/
+    %meta{:content => "上海茵朗信息科技有限公司是家致力于提供出国留学考试培训，以及出国留学方向规划咨询的公司。公司的趴趴雅思小助手能为用户提供雅思一对一的在线辅导以及雅思口语预测等服务，目前，已累计服务超过3万名考生，占据较高市场份额，同时也在向多终端的在线英语培训平台转变。", :name => "description"}/
+
+    / Favicon
+    %link{:href => "/img/favicon-32x32.png", :rel => "icon", :sizes => "32x32", :type => "image/png"}/
+
+    / Mobile Metas
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+
+    / Web Fonts
+    %link{:href => "http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800%7CShadows+Into+Light", :rel => "stylesheet", :type => "text/css"}/
+
+    / Vendor CSS
+    = stylesheet_link_tag "owl.carousel.min.css"
+    = stylesheet_link_tag "owl.theme.default.min.css"
+    = stylesheet_link_tag "magnific-popup.css"
+
+    / CSS
+    = stylesheet_link_tag "application", media: 'all'
+
+    / Current Page CSS
+    = stylesheet_link_tag "nivo-slider.css"
+    = stylesheet_link_tag "default/default.css"
+    = stylesheet_link_tag "css/settings.css"
+    = stylesheet_link_tag "css/component.css"
+
+    / Head Libs
+    = javascript_include_tag "modernizr.js"
+
+    /[if IE]
+      = stylesheet_link_tag "ie"
+
+    /[if lte IE 8]
+      = javascript_include_tag 'respond.js'
+      = javascript_include_tag 'excanvas.js'
+
+    = csrf_meta_tags
+
+    :javascript
+      (function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement);
+
+    /[if gte IE 9]
+      :css
+        .gradient {filter: none;}
+
+  %body{'ng-app' => 'shopApp'}
+
+    - if current_admin
+      = render partial: 'admin_nav'
+
+    .body
+      %header#header
+        .container
+          .logo
+            %a{:href => "/"}
+              %img{:alt => "Porto", :height => "80", :width => "300", 'data-sticky-width' => "225", 'data-sticky-height' => "60", :src => "/img/yl-logo.png"}/
+          %nav.nav-top
+            %ul.nav.nav-pills.nav-top
+              %li
+                = link_to URI.encode('/关于我们') do
+                  %i.fa.fa-angle-right>
+                  关于我们
+              %li
+                = link_to URI.encode('/联系我们') do
+                  %i.fa.fa-angle-right>
+                  联系我们
+              %li.phone
+                %span
+                  %i.fa.fa-phone>
+                  021-65263861
+              %li
+                %a{:href => "http://sighttp.qq.com/authd?IDKEY=c3135fb1cba32f466ba4301ef3d892f8b6945c239c5f94e9", :target => "_blank"}
+                  %img{:alt => "戳我哟~", :border => "0", :src => "http://wpa.qq.com/imgd?IDKEY=c3135fb1cba32f466ba4301ef3d892f8b6945c239c5f94e9&pic=51", :title => "戳我哟~"}/
+          %button.btn.btn-responsive-nav.btn-inverse{"data-target" => ".nav-main-collapse", "data-toggle" => "collapse"}
+            %i.fa.fa-bars
+        .navbar-collapse.nav-main-collapse.collapse
+          .container
+            %ul.social-icons
+              %li.weibo
+                %a{:href => "http://weibo.com/u/3946500922", :target => "_blank", :title => "微博"} 微博
+              %li.wechat
+                %a.lightbox{:href => "/img/wechat.jpg", 'data-plugin-options' => '{"type":"image"}', :title => "微信"} 微信
+            %nav.nav-main.mega-menu
+              %ul#mainMenu.nav.nav-pills.nav-main
+                %li{class:('active' if params[:controller] == 'pages' &&  params[:action] == 'index')}
+                  = link_to "主页" , '/'
+                %li.dropdown{class:('active' if params[:controller] == 'products')}
+                  %a.dropdown-toggle{:href => "/products/list"}
+                    趴趴雅思
+                  %ul.dropdown-menu
+                    - @products.each do |product|
+                      %li
+                        = link_to product.title, "/products/#{ URI.encode(product.title) }"
+                %li
+                  = link_to "口语练习平台" , 'http://training.ieltsassistant.com/', target: '_blank'
+                %li
+                  = link_to "烤鸭论坛" , 'http://sns.ieltsassistant.com/', target: '_blank'
+                %li{class:('active' if params[:controller] == 'pages' &&  params[:action] == 'faq')}
+                  = link_to "常见问题" , URI.encode('/常见问题')
+                - if not user_signed_in?
+                  %li{class:('active' if params[:controller] == 'registrations' &&  params[:action] == 'new')}
+                    = link_to "登录" , '/users/sign_in'
+                - else
+                  %li.dropdown{class:('active' if params[:controller] == 'registrations' or params[:controller] == 'profiles')}
+                    %a.dropdown-toggle{:href => "#"}
+                      我的账号
+                    %ul.dropdown-menu
+                      %li
+                        %a{href: '#/orders', 'data-toggle' => "modal", 'data-target' => "#shopApp"}
+                          我的订单
+                      %li
+                        = link_to current_user.email, '/users/edit'
+                      %li
+                        = link_to '个人资料', '/profile'
+                      %li
+                        = link_to "注销", destroy_user_session_path, :method => :delete
+                  = render partial: 'carts_menu'
+
+      .main{:role => "main"}
+        .container
+          - if notice
+            .alert.alert-info.alert-dismissible
+              %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+                %span{"aria-hidden" => "true"} ×
+              = notice
+          - if alert
+            .alert.alert-warning.alert-dismissible
+              %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+                %span{"aria-hidden" => "true"} ×
+              = alert
+
+        = yield
+
+      %footer#footer
+        .container
+          .row
+            .footer-ribbon
+              %span Get in Touch
+            .col-md-3
+              .newsletter
+                %h4.heading-primary 官方购买商城
+                %p
+                %p
+                  %a.btn.btn-primary{ href: 'https://papaielts.taobao.com/?mm_gxbid=1_197584_430d8039266ade366349f909407f60b3', target: '_blank', :rel => "nofollow" } 淘宝旗舰店
+                %p
+                  %a.btn.btn-primary{ href: 'http://papaielts.jd.com', target: '_blank', :rel => "nofollow" } 京东旗舰店
+            .col-md-3
+              %h4.heading-primary 最新公告
+              #tweet.twitter{"data-plugin-options" => "{\"username\": \"\", \"count\": 2}", "data-plugin-tweets" => ""}
+                %p Please wait...
+            .col-md-4
+              .contact-details
+                %h4.heading-primary 联系我们
+                %ul.contact
+                  %li
+                    %p
+                      %i.fa.fa-map-marker
+                      %strong 地址:
+                      上海市杨浦区国定东路275-8号13A03室
+                  %li
+                    %p
+                      %i.fa.fa-phone
+                      %strong 电话:
+                      021-65263861
+                  %li
+                    %p
+                      %i.fa.fa-envelope
+                      %strong Email:
+                      %a{:href => "mailto:service@ieltsassistant.com"} service@ieltsassistant.com
+            .col-md-2
+              %h4.heading-primary 关注我们
+              .social-icons
+                %ul.social-icons
+                  %li.weibo
+                    %a{"data-placement" => "bottom", "data-tooltip" => "", :href => "http://weibo.com/u/3946500922", :target => "_blank", :title => "微博", :rel => "nofollow"} 微博
+                  %li.wechat
+                    %a.lightbox{"data-placement" => "bottom", "data-tooltip" => "", :href => "/img/wechat.jpg", 'data-plugin-options' => '{"type":"image"}', :title => "微信", :rel => "nofollow"} 微信
+        .footer-copyright
+          .container
+            .row
+              .col-md-8
+                %a.logo.pull-left{:href => "/"}
+                  %img.img-responsive{:alt => "Porto Website Template", :src => "/img/logo-footer.png"}/
+                &nbsp;
+                © Copyright 2015 趴趴雅思小助手.
+              .col-md-4
+                %nav#sub-menu
+                  %ul
+                    %li
+                      = link_to URI.encode('/关于我们') do
+                        关于我们
+                    %li
+                      = link_to URI.encode('/常见问题') do
+                        常见问题
+                    %li
+                      = link_to URI.encode('/联系我们') do
+                        联系我们
+                    %li
+                      %a{:href => "http://sighttp.qq.com/authd?IDKEY=c3135fb1cba32f466ba4301ef3d892f8b6945c239c5f94e9", :target => "_blank"}
+                        %img{:alt => "戳我哟~", :border => "0", :src => "http://wpa.qq.com/imgd?IDKEY=c3135fb1cba32f466ba4301ef3d892f8b6945c239c5f94e9&pic=51", :title => "戳我哟~"}/
+      #shopApp.modal.fade{:role => "dialog", :tabindex => "-1"}
+        .modal-dialog.modal-lg
+          .modal-content
+            %div{ "ng-view" => "" }
+
+
+    = javascript_include_tag 'application', media: 'all'
+    / Vendor
+    = javascript_include_tag 'jquery-cookie.js'
+    = javascript_include_tag 'jquery.appear.js'
+    = javascript_include_tag 'jquery.easing.js'
+    = javascript_include_tag 'jquery.easy-pie-chart.js'
+    = javascript_include_tag 'jquery.gmap.js'
+    = javascript_include_tag 'jquery.isotope.js'
+    = javascript_include_tag 'jquery.magnific-popup.js'
+    = javascript_include_tag 'jquery.stellar.js'
+    = javascript_include_tag 'jquery.validation.js'
+    = javascript_include_tag 'common.js'
+    = javascript_include_tag 'owl.carousel.js'
+    = javascript_include_tag 'jflickrfeed.js'
+    = javascript_include_tag 'vide.js'
+    / Theme Base, Components and Settings
+    = javascript_include_tag 'theme.js'
+    / Specific Page Vendor and Views
+    = javascript_include_tag 'js/jquery.flipshow.js'
+    = javascript_include_tag 'jquery.nivo.slider.js'
+    = javascript_include_tag 'views/view.home.js'
+    / Theme Initialization Files
+    = javascript_include_tag 'theme.init.js'
+
+    = yield :js
+
+    // baidu analytic
+    :javascript
+      var _hmt = _hmt || [];
+      (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f0a1ad886befc6468f7bb97adf799539";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+      })();

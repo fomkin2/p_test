@@ -1,0 +1,12 @@
+%h1.page-header Listing images
+
+%p
+  = link_to 'New Image', new_image_path, class: 'btn btn-primary btn-large'
+
+%ul.thumbnails
+  - @images.each do |image|
+    %li.span3
+      .thumbnail
+        = link_to (image_tag image.file), image.file.url, target: '_blank'
+        = text_field "image#{image.id}".to_sym, :file, { value: image.file.url(:default, timestamp: false), disabled: 'disabled' }
+        = link_to 'Destroy', image, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'

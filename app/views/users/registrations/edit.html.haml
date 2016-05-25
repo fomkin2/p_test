@@ -1,0 +1,43 @@
+.container
+  .row
+
+    .col-md-12
+      - if devise_error_messages!.present?
+        .alert.alert-warning.alert-dismissible
+          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+          = devise_error_messages!
+      .featured-boxes
+        .row
+          .col-sm-6.col-md-offset-3
+            .featured-box.featured-box-primary.align-left.mt-xlg
+              .box-content
+                %h4.heading-primary.text-uppercase.mb-md 账号管理
+
+                = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+
+                  .form-group
+                    = f.label :current_password
+                    = f.password_field :current_password, autocomplete: "off", class: 'form-control'
+                    %p.help-block= t('we_need_your_current_password_to_confirm_your_changes')
+
+                  .form-group
+                    = f.label :email
+                    = f.email_field :email, autofocus: true, class: 'form-control'
+                    - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+                      %p.help-block
+                        #{ t('currently_waiting_confirmation_for') }: #{resource.unconfirmed_email}
+
+                  .form-group
+                    = f.label :password
+                    = f.password_field :password, autocomplete: "off", class: 'form-control'
+                    %p.help-block= t('leave_blank_if_you_don_t_want_to_change_it')
+
+                  .form-group
+                    = f.label :password_confirmation
+                    = f.password_field :password_confirmation, autocomplete: "off", class: 'form-control'
+
+                  .form-group
+                    = f.submit t('update'), class: 'btn btn-primary'
+
+                = link_to t('back'), :back

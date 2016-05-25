@@ -1,0 +1,93 @@
+.modal-header
+  %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+    %span{"aria-hidden" => "true"} ×
+  %h4.modal-title
+    下单确认
+.modal-body.shop
+  .container-fluid
+    .row
+      .col-md-9
+        #accordion.panel-group
+          .panel.panel-default
+            .panel-heading
+              %h4.panel-title
+                %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse"}
+                  备注
+            .accordion-body.collapse.in
+              .panel-body
+                .row
+                  .form-group
+                    .col-md-6
+                      %label QQ或微信号
+                      %input.form-control{disabled: 'disabled', :type => "text", 'ng-model' => 'comment.qqwechat'}
+                    .col-md-6
+                      %label 联系电话
+                      %input.form-control{disabled: 'disabled', :type => "text", 'ng-model' => 'comment.phone'}
+                .row
+                  .form-group
+                    .col-md-6
+                      %label 下场考试时间
+                      %input.form-control{disabled: 'disabled', :type => "text", 'ng-model' => 'comment.next_exam'}
+                .row
+                  .form-group
+                    .col-md-12
+                      %label 留言
+                      %input.form-control{disabled: 'disabled', :type => "text", 'ng-model' => 'comment.notice'}
+
+          .panel.panel-default
+            .panel-heading
+              %h4.panel-title
+                %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse"}
+                  订单信息
+            .accordion-body.collapse.in
+              .panel-body
+                %table.shop_table.cart
+                  %thead
+                    %tr
+                      %th.product-thumbnail
+                      %th.product-name
+                        产品
+                      %th.product-price
+                        价格
+                      %th.product-quantity
+                        数量
+                      %th.product-subtotal
+                        共计
+                  %tbody
+                    %tr.cart_table_item{'ng-repeat' => 'cart in carts | filter:product_title'}
+                      %td.product-thumbnail
+                        %a{:href => "/products/{{cart.product_title}}", target: '_blank'}
+                          %img.img-responsive{:alt => "", :height => "100", 'ng-src' => "{{cart.product_img}}", :width => "100"}
+                        %td.product-name
+                          %a{:href => "/products/{{cart.product_title}}", target: '_blank'}
+                            {{cart.product_title}}
+                        %td.product-price
+                          %span.amount= "¥{{cart.price}}"
+                        %td.product-quantity
+                          {{cart.number}}
+                        %td.product-subtotal
+                          %span.amount
+                            ¥{{cart.number * cart.price}}
+                %hr.tall
+                %h4.heading-primary 订单金额
+                %table.cart-totals
+                  %tbody
+                    %tr.total
+                      %th
+                        %strong 共计
+                      %td
+                        %strong
+                          %span.amount= "¥{{carts | cartsAmount}}"
+            .actions-continue
+              %a.btn.btn-lg.mt-xl{href: '#/carts', 'ng-click' => 'reloadModal()'} 返回修改
+              %input.btn.btn-lg.btn-primary.mt-xl{:type => "submit", :value => "确认下单", 'ng-click' => 'placeOrder()'}
+      .col-md-3
+        %h4.heading-primary 订单金额
+        %table.cart-totals
+          %tbody
+            %tr.total
+              %th
+                %strong 共计
+              %td
+                %strong
+                  %span.amount= "¥{{carts | cartsAmount}}"

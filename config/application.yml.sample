@@ -1,0 +1,21 @@
+mailer_default_url_host: staging.offical.ieltsassistant.com
+
+secret_key_base: 1078d3005
+devise_secret_key: 6ac2bbb
+
+# alipay
+ANOTHER_PID: '208'
+ANOTHER_KEY: rw6j
+RETURN_URL_PREFIX: 'http://internet-address/orders/return/'
+NOTIFY_URL_PREFIX: 'http://internet-address/orders/notify/'
+
+# keys of production and staging only
+exception_recipients: emj365@gmail.com # split by ","
+exception_webhook_url: https://hooks.slack.com/services/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
+exception_channel: '#exceptions'
+
+# keys of production only
+smtp_port: '465'
+smtp_server: 'smtp.mxhichina.com'
+smtp_user_name: 'donotreply@ieltsassistant.com'
+smtp_password: 'asdf'

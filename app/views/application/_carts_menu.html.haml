@@ -1,0 +1,30 @@
+%li.dropdown.mega-menu-item.mega-menu-shop{'ng-controller' => 'CartMenuController', "ng-cloak" => ""}
+  %a.dropdown-toggle.mobile-redirect{href: '#/carts', "ng-click" => "showCart()"}
+    %i.fa.fa-shopping-cart
+    购物车 ({{carts.length}}) - ¥{{carts | cartsAmount}}
+  %ul.dropdown-menu{"ng-if" => "carts.length > 0"}
+    %li
+      .mega-menu-content
+        .row
+          .col-md-12
+            %table.cart
+              %tbody
+                %tr{"ng-repeat" => "cart in carts"}
+                  %td.product-thumbnail
+                    %a{:href => "/products/{{cart.product_title}}"}
+                      %img.img-responsive{:alt => "", :height => "100", "ng-src" => "{{cart.product_img}}", :width => "100"}/
+                  %td.product-name
+                    %a{:href => "/products/{{cart.product_title}}"}
+                      {{cart.product_title}}
+                      %br/
+                      %span.amount
+                        %strong= "¥{{cart.price}}x{{cart.number}}"
+                  %td.product-actions
+                    %a{"ng-click" => "delete(cart)"}
+                      删除
+                      %i.fa.fa-times
+                %tr
+                  %td.actions{:colspan => "6"}
+                    .actions-continue
+                      %a{href: '#/carts'}
+                        %input.btn.btn-default{"ng-click" => "showCart()", type: 'button', :value => "进入购物车"}

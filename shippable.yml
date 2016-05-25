@@ -1,0 +1,19 @@
+language: ruby
+rvm: 2.1.7
+
+before_install:
+  - gem update bundler
+
+install:
+  - bundle install --without development production
+
+script:
+  - export RAILS_ENV=test
+  - bundle exec rake db:schema:load
+  - bundle exec rspec
+
+cache: true
+
+after_success:
+
+  - ./shippable-deploy.sh

@@ -1,0 +1,14 @@
+%section.page-header
+  .container
+    .row
+      .col-md-12
+        %ul.breadcrumb
+          %li
+            %a{:href => "/"} 首页
+          %li.active 我的订单
+    .row
+      .col-md-12
+        %h1 我的订单
+
+.container{ 'ng-app' => 'myApp' }
+  %div{ "ng-view" => "" }

@@ -1,0 +1,17 @@
+= form_for @products_image do |f|
+  = f.hidden_field :product_id, value: @products_image.product_id
+  - if @products_image.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@products_image.errors.count, "error")} prohibited this products_image from being saved:"
+      %ul
+        - @products_image.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    %p.field
+      = f.file_field :file
+  .field
+    = f.label :ordering
+    = f.number_field :ordering
+  .actions
+    = f.submit 'Save', class: 'btn btn-primary'

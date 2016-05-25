@@ -1,0 +1,9 @@
+#content.container
+  .row
+    .span12
+      %p#notice= notice
+      - if can? :update, @page
+        = link_to '编辑页面内容', {action: :edit}, class: 'btn pull-right'
+      %h2.page-header
+        = @page.title
+      = raw(@page.content)
